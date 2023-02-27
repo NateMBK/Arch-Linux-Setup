@@ -23,6 +23,10 @@ echo -ne "
                Creating (and Theming) Grub Boot Menu
 -------------------------------------------------------------------------
 "
+# set kernel parameter for decrypting the drive
+if [[ "${FS}" == "luks" ]]; then
+sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=${ENCRYPTED_PARTITION_UUID}:ROOT root=/dev/mapper/ROOT %g" /etc/default/grub
+fi
 # set kernel parameter for adding splash screen
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
 
@@ -110,6 +114,27 @@ SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
 mkdir -p /etc/conf.d/
 cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
 
+fi
+
+echo -ne "
+-------------------------------------------------------------------------
+               Enabling (and Theming) Plymouth Boot Splash
+-------------------------------------------------------------------------
+"
+PLYMOUTH_THEMES_DIR="$HOME/ArchTitus/configs/usr/share/plymouth/themes"
+PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
+mkdir -p /usr/share/plymouth/themes
+echo 'Installing Plymouth theme...'
+cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
+if  [[ $FS == "luks"]]; then
+  sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
+  sed -i 's/HOOKS=(base udev \(.*block\) /&plymouth-/' /etc/mkinitcpio.conf # create plymouth-encrypt after block hook
+else
+  sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
+fi
+plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
+echo 'Plymouth theme installed'
+
 echo -ne "
 -------------------------------------------------------------------------
                     Cleaning
@@ -126,4 +151,5 @@ rm -r $HOME/ArchTitus
 rm -r /home/$USERNAME/ArchTitus
 
 # Replace in the same state
-fi
+cd $pwd
+#fi
