@@ -131,7 +131,6 @@ mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
 cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
 sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
-fi
 plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
 echo 'Plymouth theme installed'
 
