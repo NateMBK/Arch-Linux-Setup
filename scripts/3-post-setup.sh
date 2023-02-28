@@ -68,7 +68,7 @@ echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
 
-if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
+if [[ "${FS}" == "btrfs" ]]; then
 echo -ne "
 -------------------------------------------------------------------------
                     Creating Snapper Config
