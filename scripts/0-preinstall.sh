@@ -156,13 +156,6 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
 else
     pacstrap /mnt efibootmgr --noconfirm --needed
 fi
-echo -ne "
--------------------------------------------------------------------------
-                    Checking for low memory systems <8G
--------------------------------------------------------------------------
-"
-TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
-if [[  $TOTAL_MEM -lt 8000000 ]]; then
     # Put swap into the actual system, not into RAM disk, otherwise there is no point in it, it'll cache RAM into RAM. So, /mnt/ everything.
     mkdir -p /mnt/opt/swap # make a dir that we can apply NOCOW to to make it btrfs-friendly.
     chattr +C /mnt/opt/swap # apply NOCOW, btrfs needs that.
@@ -173,7 +166,6 @@ if [[  $TOTAL_MEM -lt 8000000 ]]; then
     swapon /mnt/opt/swap/swapfile
     # The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the system itself.
     echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab # Add swap to fstab, so it KEEPS working after installation.
-fi
 echo -ne "
 -------------------------------------------------------------------------
                     SYSTEM READY FOR 1-setup.sh
