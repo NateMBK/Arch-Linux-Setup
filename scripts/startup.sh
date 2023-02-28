@@ -249,9 +249,12 @@ desktopenv () {
 
 # Starting functions
 background_checks
+clear
 userinfo
+clear
 desktopenv
 aurhelper
+installtype
 diskpart
 filesystem
 timezone
