@@ -94,9 +94,9 @@ PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
 mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
 cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
-
+fi
 plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
-echo 'Plymouth theme installed'
+echo 'Plymouth theme installe
 
 echo -ne "
 -------------------------------------------------------------------------
