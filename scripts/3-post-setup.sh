@@ -39,14 +39,13 @@ echo -ne "
                Enabling (and Theming) Login Display Manager
 -------------------------------------------------------------------------
 "
+if [[ ${DESKTOP_ENV} == "kde" ]]; then
   systemctl enable sddm.service
+  if [[ ${INSTALL_TYPE} == "FULL" ]]; then
     echo [Theme] >>  /etc/sddm.conf
     echo Current=Nordic >> /etc/sddm.conf
+  fi
 
-    # Set default lightdm-webkit2-greeter theme to Litarvan
-    sed -i 's/^webkit_theme\s*=\s*\(.*\)/webkit_theme = litarvan #\1/g' /etc/lightdm/lightdm-webkit2-greeter.conf
-    # Set default lightdm greeter to lightdm-webkit2-greeter
-    sed -i 's/#greeter-session=example.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
 echo -ne "
 -------------------------------------------------------------------------
                     Enabling Essential Services
@@ -95,7 +94,7 @@ PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
 mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
 cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
-sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
+
 plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
 echo 'Plymouth theme installed'
 
