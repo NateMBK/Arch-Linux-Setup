@@ -247,31 +247,12 @@ desktopenv () {
   set_option DESKTOP_ENV kde
 }
 
-#Set install type to Full (Getting Removed at some point). 
-installtype () {
-  set_option INSTALL_TYPE FULL
-}
-
 # Starting functions
 background_checks
-clear
 userinfo
-clear
 desktopenv
-# Set fixed options that installation uses if user choses server installation
-set_option INSTALL_TYPE MINIMAL
-set_option AUR_HELPER NONE
-if [[ ! $desktop_env == server ]]; then
-  clear
-  aurhelper
-  clear
-  installtype
-fi
-clear
+aurhelper
 diskpart
-clear
 filesystem
-clear
 timezone
-clear
 keymap
