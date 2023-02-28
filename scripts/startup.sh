@@ -61,7 +61,7 @@ pacman_check() {
 background_checks() {
     root_check
     arch_check
-    pacman_check    
+    pacman_check
 }
 
 # Renders a text based list of options that can be selected by the
