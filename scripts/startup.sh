@@ -173,16 +173,6 @@ select_option() {
 
     return $(( $active_col + $active_row * $colmax ))
 }
-# @description Displays ArchTitus logo
-# @noargs
-logo () {
-# This will be shown on every set as user is progressing
-echo -ne "
-------------------------------------------------------------------------
-            Please select presetup settings for your system              
-------------------------------------------------------------------------
-"
-}
 # @description This function will handle file systems. At this movement we are handling only
 # btrfs and ext4. Others will be added in future.
 filesystem () {
@@ -269,31 +259,31 @@ installtype () {
 # Starting functions
 background_checks
 clear
-logo
+
 userinfo
 clear
-logo
+
 desktopenv
 # Set fixed options that installation uses if user choses server installation
 set_option INSTALL_TYPE MINIMAL
 set_option AUR_HELPER NONE
 if [[ ! $desktop_env == server ]]; then
   clear
-  logo
+  
   aurhelper
   clear
-  logo
+  
   installtype
 fi
 clear
-logo
+
 diskpart
 clear
-logo
+
 filesystem
 clear
-logo
+
 timezone
 clear
-logo
+
 keymap
