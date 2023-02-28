@@ -173,21 +173,20 @@ select_option() {
 
     return $(( $active_col + $active_row * $colmax ))
 }
-# @description This function will handle file systems. At this movement we are handling only
-# btrfs and ext4. Others will be added in future.
+#Setting the linux file system to btrfs
 filesystem () {
 set_option FS btrfs
 }
-# @description Detects and sets timezone. 
+#Setting time zone to PST/LA 
 timezone () {
 select_option America/Los_Angeles
 }
-# @description Set user's keyboard mapping. 
+#Setting US keybord mapping as default. 
 keymap () {
 set_option KEYMAP us
 }
 
-# @description Choose whether drive is SSD or not.
+#Verifying drive type with user input.
 drivessd () {
 echo -ne "
 Is this an ssd? yes/no:
@@ -205,7 +204,7 @@ case ${options[$?]} in
 esac
 }
 
-# @description Disk selection for drive to be used with installation.
+#Setting up Linux file system.
 diskpart () {
 echo -ne "
 ------------------------------------------------------------------------
@@ -229,7 +228,7 @@ echo -e "\n${disk%|*} selected \n"
 drivessd
 }
 
-# @description Gather username and password to be used for installation. 
+#Getting User input for creating account Username and Password. 
 userinfo () {
 read -p "Please enter your username: " username
 set_option USERNAME ${username,,} # convert to lower case as in issue #109 
@@ -238,52 +237,22 @@ read -rep "Please enter your hostname: " nameofmachine
 set_option NAME_OF_MACHINE $nameofmachine
 }
 
-# @description Choose AUR helper. 
-aurhelper () {
-  set_option AUR_HELPER yay
-}
-
-# @description Choose Desktop Environment
+#Selecting KDE as the desktop environment.
 desktopenv () {
   set_option DESKTOP_ENV kde
 }
 
-# @description Choose whether to do full or minimal installation. 
-installtype () {
-  set_option INSTALL_TYPE FULL
-}
-
-# More features in future
-# language (){}
-
 # Starting functions
 background_checks
 clear
-
 userinfo
 clear
-
 desktopenv
 # Set fixed options that installation uses if user choses server installation
-set_option INSTALL_TYPE MINIMAL
-set_option AUR_HELPER NONE
-if [[ ! $desktop_env == server ]]; then
-  clear
-  
-  aurhelper
-  clear
-  
-  installtype
-fi
-clear
-
 diskpart
 clear
-
 filesystem
 clear
-
 timezone
 clear
-
 keymap
