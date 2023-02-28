@@ -46,6 +46,28 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
     echo Current=Nordic >> /etc/sddm.conf
   fi
 
+elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
+  systemctl enable gdm.service
+
+elif [[ "${DESKTOP_ENV}" == "lxde" ]]; then
+  systemctl enable lxdm.service
+
+elif [[ "${DESKTOP_ENV}" == "openbox" ]]; then
+  systemctl enable lightdm.service
+  if [[ "${INSTALL_TYPE}" == "FULL" ]]; then
+    # Set default lightdm-webkit2-greeter theme to Litarvan
+    sed -i 's/^webkit_theme\s*=\s*\(.*\)/webkit_theme = litarvan #\1/g' /etc/lightdm/lightdm-webkit2-greeter.conf
+    # Set default lightdm greeter to lightdm-webkit2-greeter
+    sed -i 's/#greeter-session=example.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
+  fi
+
+else
+  if [[ ! "${DESKTOP_ENV}" == "server"  ]]; then
+  sudo pacman -S --noconfirm --needed lightdm lightdm-gtk-greeter
+  systemctl enable lightdm.service
+  fi
+fi
+
 echo -ne "
 -------------------------------------------------------------------------
                     Enabling Essential Services
@@ -67,7 +89,7 @@ echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
 
-if [[ "${FS}" == "btrfs" ]]; then
+if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
 echo -ne "
 -------------------------------------------------------------------------
                     Creating Snapper Config
@@ -94,9 +116,10 @@ PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
 mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
 cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
+sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
 fi
 plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
-echo 'Plymouth theme installe
+echo 'Plymouth theme installed'
 
 echo -ne "
 -------------------------------------------------------------------------
