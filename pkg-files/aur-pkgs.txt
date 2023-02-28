@@ -1,4 +1,7 @@
-﻿bridge-utils
+--END OF MINIMAL INSTALL--
+autojump
+brave-bin
+bridge-utils
 dxvk-bin
 github-desktop-bin
 lightly-git
@@ -14,3 +17,6 @@ ocs-url
 plymouth-git
 sddm-nordic-theme-git
 snapper-gui-git
+ttf-meslo
+vde2
+zoom

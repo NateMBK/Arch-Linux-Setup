@@ -4,7 +4,6 @@
 # @file Preinstall
 # @brief Contains the steps necessary to configure and pacstrap the install to selected drive. 
 echo -ne "
-
 -------------------------------------------------------------------------
                     Automated Arch Linux Installer
 -------------------------------------------------------------------------
@@ -102,6 +101,16 @@ if [[ "${FS}" == "btrfs" ]]; then
     mkfs.btrfs -L ROOT ${partition3} -f
     mount -t btrfs ${partition3} /mnt
     subvolumesetup
+elif [[ "${FS}" == "ext4" ]]; then
+    mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
+    mkfs.ext4 -L ROOT ${partition3}
+    mount -t ext4 ${partition3} /mnt
+elif [[ "${FS}" == "luks" ]]; then
+    mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
+# enter luks password to cryptsetup and format root partition
+    echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat ${partition3} -
+# open luks container and ROOT will be place holder 
+    echo -n "${LUKS_PASSWORD}" | cryptsetup open ${partition3} ROOT -
 # now format that container
     mkfs.btrfs -L ROOT ${partition3}
 # create subvolumes for btrfs
@@ -146,6 +155,24 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
     grub-install --boot-directory=/mnt/boot ${DISK}
 else
     pacstrap /mnt efibootmgr --noconfirm --needed
+fi
+echo -ne "
+-------------------------------------------------------------------------
+                    Checking for low memory systems <8G
+-------------------------------------------------------------------------
+"
+TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
+if [[  $TOTAL_MEM -lt 8000000 ]]; then
+    # Put swap into the actual system, not into RAM disk, otherwise there is no point in it, it'll cache RAM into RAM. So, /mnt/ everything.
+    mkdir -p /mnt/opt/swap # make a dir that we can apply NOCOW to to make it btrfs-friendly.
+    chattr +C /mnt/opt/swap # apply NOCOW, btrfs needs that.
+    dd if=/dev/zero of=/mnt/opt/swap/swapfile bs=1M count=2048 status=progress
+    chmod 600 /mnt/opt/swap/swapfile # set permissions.
+    chown root /mnt/opt/swap/swapfile
+    mkswap /mnt/opt/swap/swapfile
+    swapon /mnt/opt/swap/swapfile
+    # The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the system itself.
+    echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab # Add swap to fstab, so it KEEPS working after installation.
 fi
 echo -ne "
 -------------------------------------------------------------------------

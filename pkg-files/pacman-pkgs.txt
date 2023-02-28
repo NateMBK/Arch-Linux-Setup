@@ -1,4 +1,4 @@
-﻿mesa
+mesa
 xorg
 xorg-server
 xorg-apps
@@ -12,6 +12,7 @@ linux-headers
 noto-fonts-emoji
 usbutils
 xdg-user-dirs
+--END OF MINIMAL INSTALL--
 alsa-plugins
 alsa-utils
 autoconf
