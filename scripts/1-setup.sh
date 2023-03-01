@@ -75,7 +75,6 @@ do
   echo "INSTALLING: ${line}"
   sudo pacman -S --noconfirm --needed ${line}
 done
-fi
 
 echo -ne "
 -------------------------------------------------------------------------
