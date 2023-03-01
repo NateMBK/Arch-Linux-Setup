@@ -70,14 +70,9 @@ echo -ne "
                     Installing Base System  
 -------------------------------------------------------------------------
 "
-# sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
-# stop the script and move on, not installing any more packages below that line
-if [[ ! $DESKTOP_ENV == server ]]; then
-  cat $HOME/ArchTitus/pkg-files/pacman-pkgs.txt | while read line
-  do
-    echo "INSTALLING: ${line}"
-    sudo pacman -S --noconfirm --needed ${line}
-  done
+cat $HOME/ArchTitus/pkg-files/pacman-pkgs.txt | while read line
+echo "INSTALLING: ${line}"
+sudo pacman -S --noconfirm --needed ${line}
 fi
 
 echo -ne "
@@ -176,13 +171,6 @@ if [ $(whoami) = "root"  ]; then
 	echo $NAME_OF_MACHINE > /etc/hostname
 else
 	echo "You are already a user proceed with aur installs"
-fi
-if [[ ${FS} == "luks" ]]; then
-# Making sure to edit mkinitcpio conf if luks is selected
-# add encrypt in mkinitcpio.conf before filesystems in hooks
-    sed -i 's/filesystems/encrypt filesystems/g' /etc/mkinitcpio.conf
-# making mkinitcpio with linux kernel
-    mkinitcpio -p linux
 fi
 echo -ne "
 -------------------------------------------------------------------------

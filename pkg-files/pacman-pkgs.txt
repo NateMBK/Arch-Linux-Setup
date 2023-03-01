@@ -12,7 +12,6 @@ linux-headers
 noto-fonts-emoji
 usbutils
 xdg-user-dirs
---END OF MINIMAL INSTALL--
 alsa-plugins
 alsa-utils
 autoconf

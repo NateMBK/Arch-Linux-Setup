@@ -24,10 +24,6 @@ echo -ne "
                Creating (and Theming) Grub Boot Menu
 -------------------------------------------------------------------------
 "
-# set kernel parameter for decrypting the drive
-if [[ "${FS}" == "luks" ]]; then
-sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=${ENCRYPTED_PARTITION_UUID}:ROOT root=/dev/mapper/ROOT %g" /etc/default/grub
-fi
 # set kernel parameter for adding splash screen
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
 echo -e "Updating grub..."
@@ -39,33 +35,13 @@ echo -ne "
                Enabling (and Theming) Login Display Manager
 -------------------------------------------------------------------------
 "
-if [[ ${DESKTOP_ENV} == "kde" ]]; then
-  systemctl enable sddm.service
-  if [[ ${INSTALL_TYPE} == "FULL" ]]; then
-    echo [Theme] >>  /etc/sddm.conf
-    echo Current=Nordic >> /etc/sddm.conf
-  fi
-
-elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
-  systemctl enable gdm.service
-
-elif [[ "${DESKTOP_ENV}" == "lxde" ]]; then
-  systemctl enable lxdm.service
-
-elif [[ "${DESKTOP_ENV}" == "openbox" ]]; then
-  systemctl enable lightdm.service
-  if [[ "${INSTALL_TYPE}" == "FULL" ]]; then
-    # Set default lightdm-webkit2-greeter theme to Litarvan
-    sed -i 's/^webkit_theme\s*=\s*\(.*\)/webkit_theme = litarvan #\1/g' /etc/lightdm/lightdm-webkit2-greeter.conf
-    # Set default lightdm greeter to lightdm-webkit2-greeter
-    sed -i 's/#greeter-session=example.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
-  fi
-
-else
-  if [[ ! "${DESKTOP_ENV}" == "server"  ]]; then
-  sudo pacman -S --noconfirm --needed lightdm lightdm-gtk-greeter
-  systemctl enable lightdm.service
-  fi
+systemctl enable sddm.service
+echo [Theme] >>  /etc/sddm.conf
+echo Current=Nordic >> /etc/sddm.conf
+# Set default lightdm-webkit2-greeter theme to Litarvan
+sed -i 's/^webkit_theme\s*=\s*\(.*\)/webkit_theme = litarvan #\1/g' /etc/lightdm/lightdm-webkit2-greeter.conf
+# Set default lightdm greeter to lightdm-webkit2-greeter
+sed -i 's/#greeter-session=example.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
 fi
 
 echo -ne "
@@ -89,21 +65,17 @@ echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
 
-if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
 echo -ne "
 -------------------------------------------------------------------------
                     Creating Snapper Config
 -------------------------------------------------------------------------
 "
-
 SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
 mkdir -p /etc/snapper/configs/
 cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
-
 SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
 mkdir -p /etc/conf.d/
 cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
-
 fi
 
 echo -ne "
@@ -117,9 +89,9 @@ mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
 cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
 sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
-fi
 plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
 echo 'Plymouth theme installed'
+fi
 
 echo -ne "
 -------------------------------------------------------------------------

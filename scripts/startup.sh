@@ -237,36 +237,14 @@ read -rep "Please enter your hostname: " nameofmachine
 set_option NAME_OF_MACHINE $nameofmachine
 }
 
-#Picking Arch default AUR as Yay.
-aurhelper () {
-  set_option AUR_HELPER yay
-}
-
-#Selecting KDE as the desktop environment.
-desktopenv () {
-  set_option DESKTOP_ENV kde
-}
-
-#Set install type to Full (Getting Removed at some point). 
-installtype () {
-  set_option INSTALL_TYPE FULL
-}
-
 # Starting functions
 background_checks
 clear
 userinfo
 clear
-desktopenv
 # Set fixed options that installation uses if user choses server installation
-set_option INSTALL_TYPE MINIMAL
-set_option AUR_HELPER NONE
-if [[ ! $desktop_env == server ]]; then
-  clear
-  aurhelper
-  clear
-  installtype
-fi
+clear
+installtype
 clear
 diskpart
 clear
