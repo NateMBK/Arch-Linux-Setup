@@ -3,8 +3,8 @@
 #
 # @file Post-Setup
 # @brief Finalizing installation configurations and cleaning up after script.
-echo -ne "
 
+echo -ne "
 -------------------------------------------------------------------------
                     Automated Arch Linux Installer
                         SCRIPTHOME: ArchTitus
@@ -13,6 +13,7 @@ echo -ne "
 Final Setup and Configurations
 GRUB EFI Bootloader Install & Check
 "
+
 source ${HOME}/ArchTitus/configs/setup.conf
 
 if [[ -d "/sys/firmware/efi" ]]; then
@@ -36,12 +37,12 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 systemctl enable sddm.service
-echo [Theme] >>  /etc/sddm.conf
+echo [Theme] >> /etc/sddm.conf
 echo Current=Nordic >> /etc/sddm.conf
 # Set default lightdm-webkit2-greeter theme to Litarvan
-sed -i 'sr/^webkit_theme\s*=\s*\(.*\)/webkit_theme = litarvan #\1/g' /etc/lightdm/lightdm-webkit2-greeter.conf
+sed -i 's/^webkit_theme\s*=.*/webkit_theme = litarvan/' /etc/lightdm/lightdm-webkit2-greeter.conf
 # Set default lightdm greeter to lightdm-webkit2-greeter
-sed -i 's/#greeter-session=example.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
+sed -i 's/#greeter-session=example-gtk-gnome/greeter-session=lightdm-webkit2-greeter/' /etc/lightdm/lightdm.conf
 sudo pacman -S --noconfirm --needed lightdm lightdm-gtk-greeter
 systemctl enable lightdm.service
 
@@ -73,10 +74,10 @@ echo -ne "
 "
 SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
 mkdir -p /etc/snapper/configs/
-cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
+cp -rfv "${SNAPPER_CONF}" /etc/snapper/configs/
 SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
 mkdir -p /etc/conf.d/
-cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
+cp -rfv "${SNAPPER_CONF_D}" /etc/conf.d/
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -87,14 +88,13 @@ PLYMOUTH_THEMES_DIR="$HOME/ArchTitus/configs/usr/share/plymouth/themes"
 PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
 mkdir -p /usr/share/plymouth/themes
 echo 'Installing Plymouth theme...'
-cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
-sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
-plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
-echo 'Plymouth theme installed'
+cp -rf "${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME}" /usr/share/plymouth/themes/
+echo 'Setting Plymouth as default boot splash...'
+plymouth-set-default-theme ${PLYMOUTH_THEME}
 
 echo -ne "
 -------------------------------------------------------------------------
-                    Cleaning
+                         Cleaning Up
 -------------------------------------------------------------------------
 "
 # Remove no password sudo rights
@@ -109,4 +109,3 @@ rm -r /home/$USERNAME/ArchTitus
 
 # Replace in the same state
 cd $pwd
-fi
