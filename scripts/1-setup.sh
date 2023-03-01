@@ -71,8 +71,10 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 cat $HOME/ArchTitus/pkg-files/pacman-pkgs.txt | while read line
-echo "INSTALLING: ${line}"
-sudo pacman -S --noconfirm --needed ${line}
+do
+  echo "INSTALLING: ${line}"
+  sudo pacman -S --noconfirm --needed ${line}
+done
 fi
 
 echo -ne "

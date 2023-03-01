@@ -77,7 +77,6 @@ cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
 SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
 mkdir -p /etc/conf.d/
 cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
-fi
 
 echo -ne "
 -------------------------------------------------------------------------
