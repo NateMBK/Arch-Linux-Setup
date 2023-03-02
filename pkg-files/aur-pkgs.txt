@@ -8,7 +8,7 @@ mangohud
 mangohud-common
 ocs-url
 plymouth-git
-sddm-breath-theme
+dexy-theme-git
 snapper-gui-git
 ttf-meslo
 vde2
