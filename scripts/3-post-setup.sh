@@ -38,7 +38,7 @@ echo -ne "
 "
 systemctl enable sddm.service
 echo [Theme] >> /etc/sddm.conf
-echo Current=Nordic >> /etc/sddm.conf
+echo Current=Breath >> /etc/sddm.conf
 # Set default lightdm-webkit2-greeter theme to Litarvan
 sed -i 's/^webkit_theme\s*=.*/webkit_theme = litarvan/' /etc/lightdm/lightdm-webkit2-greeter.conf
 # Set default lightdm greeter to lightdm-webkit2-greeter
