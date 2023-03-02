@@ -8,7 +8,6 @@ xorg-xinit
 binutils
 dosfstools
 linux-headers
-noto-fonts-emoji
 usbutils
 xdg-user-dirs
 alsa-plugins
