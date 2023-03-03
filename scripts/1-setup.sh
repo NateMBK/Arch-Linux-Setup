@@ -6,7 +6,9 @@ source $HOME/ArchTitus/configs/setup.conf
 
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
-echo -ne "~~ Optimizing Package Manager Mirrors ~~"
+echo -ne "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Optimizing Package Manager Mirrors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 pacman -S --noconfirm --needed pacman-contrib curl
 pacman -S --noconfirm --needed reflector rsync grub arch-install-scripts git
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
@@ -41,18 +43,15 @@ pacman -Sy --noconfirm --needed
 
 cat $HOME/ArchTitus/pkg-files/pacman-pkgs.txt | while read line
 do
-  echo "INSTALLING: ${line}"
   sudo pacman -S --noconfirm --needed ${line}
 done
 
 # determine processor type and install microcode
 proc_type=$(lscpu)
 if grep -E "GenuineIntel" <<< ${proc_type}; then
-    echo "Installing Intel microcode"
     pacman -S --noconfirm --needed intel-ucode
     proc_ucode=intel-ucode.img
 elif grep -E "AuthenticAMD" <<< ${proc_type}; then
-    echo "Installing AMD microcode"
     pacman -S --noconfirm --needed amd-ucode
     proc_ucode=amd-ucode.img
 fi
@@ -113,7 +112,6 @@ fi
 if [ $(whoami) = "root"  ]; then
     groupadd libvirt
     useradd -m -G wheel,libvirt -s /bin/bash $USERNAME 
-    echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
 
 # use chpasswd to enter $USERNAME:$password
     echo "$USERNAME:$PASSWORD" | chpasswd
@@ -121,7 +119,6 @@ if [ $(whoami) = "root"  ]; then
 
 	cp -R $HOME/ArchTitus /home/$USERNAME/
     chown -R $USERNAME: /home/$USERNAME/ArchTitus
-    echo "ArchTitus copied to home directory"
 
 # enter $NAME_OF_MACHINE to /etc/hostname
 	echo $NAME_OF_MACHINE > /etc/hostname
