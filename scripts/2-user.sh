@@ -24,12 +24,10 @@ done
 export PATH=$PATH:~/.local/bin
 
 #Theming Desktop
-#if [ "$INSTALL_TYPE" == "FULL" ]; then
-#   cp -r ~/arch/configs/.config/* ~/.config/
-#   pip install konsave
-#   konsave -i ~/arch/configs/kde.knsv
-#   sleep 1
-#   konsave -a kde
-#fi
+cp -r ~/arch/configs/.config/* ~/.config/
+pip install konsave
+konsave -i ~/arch/configs/kde.knsv
+sleep 1
+konsave -a kde
 
 exit
