@@ -175,14 +175,6 @@ select_option() {
 filesystem () {
 set_option FS btrfs
 }
-#Setting time zone to PST/LA 
-timezone () {
-select_option America/Los_Angeles
-}
-#Setting US keybord mapping as default. 
-keymap () {
-set_option KEYMAP us
-}
 
 #Verifying drive type with user input.
 drivessd () {
@@ -204,15 +196,6 @@ esac
 
 #Setting up Linux file system.
 diskpart () {
-echo -ne "
-------------------------------------------------------------------------
-    THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
-    Please make sure you know what you are doing because
-    after formating your disk there is no way to get data back
-------------------------------------------------------------------------
-
-"
-
 PS3='
 Select the disk to install on: '
 options=($(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print "/dev/"$2"|"$3}'))
@@ -248,6 +231,3 @@ diskpart
 clear
 filesystem
 clear
-timezone
-clear
-keymap

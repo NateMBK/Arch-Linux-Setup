@@ -78,3 +78,5 @@ which
 zsh
 zsh-syntax-highlighting
 zsh-autosuggestions
+virt-manager
+virt-viewer

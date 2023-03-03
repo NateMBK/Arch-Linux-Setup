@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
 # @file User
 # @brief User customizations and AUR package installation.
-echo -ne "
 
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
-                        SCRIPTHOME: ArchTitus
--------------------------------------------------------------------------
-
-Installing AUR Softwares
-"
 source $HOME/ArchTitus/configs/setup.conf
 cd ~
 echo "INSTALLING PACKAGES FROM kde.txt"
@@ -41,9 +33,5 @@ export PATH=$PATH:~/.local/bin
 #    konsave -a kde
 #fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    SYSTEM READY FOR 3-post-setup.sh
--------------------------------------------------------------------------
-"
+echo -ne "~~ Starting 3-post-setup ~~"
 exit
