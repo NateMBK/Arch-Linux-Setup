@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #Post-Setup: Finalizing installation configurations and cleaning up after script.
 
+echo -ne "~~ Starting 3 Post Setup ~~"
+sleep 2
+
 source ${HOME}/arch/configs/setup.conf
 
 if [[ -d "/sys/firmware/efi" ]]; then

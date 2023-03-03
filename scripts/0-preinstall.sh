@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #Preinstall: steps necessary to configure and pacstrap the install to selected drive. 
 
+echo -ne "~~ Starting 0 Preinstall ~~"
+sleep 2
+
 source $CONFIGS_DIR/setup.conf
 iso=$(curl -4 ifconfig.co/country-iso)
 timedatectl set-ntp true

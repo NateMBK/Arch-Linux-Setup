@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #User customizations and AUR package installation.
 
+echo -ne "~~ Starting 2 User ~~"
+sleep 2
+
 source $HOME/arch/configs/setup.conf
 cd ~
 echo "INSTALLING PACKAGES FROM kde.txt"

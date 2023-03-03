@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #file Setup: Configures installed system, installs base packages, and creates user. 
 
+echo -ne "~~ Starting 1 Setup ~~"
+sleep 2
+
 source $HOME/arch/configs/setup.conf
 
 pacman -S --noconfirm --needed networkmanager dhclient

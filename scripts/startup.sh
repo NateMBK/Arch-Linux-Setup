@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #Startup: Setup basic linux configuration such as Keybord layout, Time Zone, Username, Password, etc.
 
+echo -ne "~~ Starting Startup ~~"
+sleep 2
+
 #setting-header General Settings
 #setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
 CONFIG_FILE=$CONFIGS_DIR/setup.conf
@@ -193,15 +196,6 @@ esac
 
 #Setting up Linux file system.
 diskpart () {
-echo -ne "
-------------------------------------------------------------------------
-    THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
-    Please make sure you know what you are doing because
-    after formating your disk there is no way to get data back
-------------------------------------------------------------------------
-
-"
-
 PS3='
 Select the disk to install on: '
 options=($(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print "/dev/"$2"|"$3}'))
