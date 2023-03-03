@@ -1,6 +1,4 @@
 #!/bin/bash
-#github-action genshdoc
-#
 # @file ArchTitus
 # @brief Entrance script that launches children scripts for each phase of installation.
 
