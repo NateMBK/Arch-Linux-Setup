@@ -1,21 +1,10 @@
 #!/usr/bin/env bash
-#github-action genshdoc
-#
-# @file User
-# @brief User customizations and AUR package installation.
-echo -ne "
+#User customizations and AUR package installation.
 
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
-                        SCRIPTHOME: ArchTitus
--------------------------------------------------------------------------
-
-Installing AUR Softwares
-"
-source $HOME/ArchTitus/configs/setup.conf
+source $HOME/arch/configs/setup.conf
 cd ~
 echo "INSTALLING PACKAGES FROM kde.txt"
-sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/ArchTitus/pkg-files/kde.txt | while read line
+sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/arch/pkg-files/kde.txt | while read line
 do
     echo "INSTALLING: ${line}"
     sudo pacman -S --noconfirm --needed "${line}"
@@ -26,7 +15,7 @@ git clone "https://aur.archlinux.org/yay.git"
 cd ~/yay
 makepkg -si --noconfirm
 echo "INSTALLING PACKAGES FROM aur-pkgs.txt"
-sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/ArchTitus/pkg-files/aur-pkgs.txt | while read line
+sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/arch/pkg-files/aur-pkgs.txt | while read line
 do
     echo "INSTALLING: ${line}"
     yay -S --noconfirm --needed "${line}"
@@ -34,18 +23,13 @@ done
 
 export PATH=$PATH:~/.local/bin
 
-#Theming DE if user chose FULL installation
+#Theming Desktop
 #if [ "$INSTALL_TYPE" == "FULL" ]; then
-#    cp -r ~/ArchTitus/configs/.config/* ~/.config/
-#    pip install konsave
-#    konsave -i ~/ArchTitus/configs/kde.knsv
-#    sleep 1
-#    konsave -a kde
+#   cp -r ~/arch/configs/.config/* ~/.config/
+#   pip install konsave
+#   konsave -i ~/arch/configs/kde.knsv
+#   sleep 1
+#   konsave -a kde
 #fi
 
-echo -ne "
--------------------------------------------------------------------------
-                    SYSTEM READY FOR 3-post-setup.sh
--------------------------------------------------------------------------
-"
 exit

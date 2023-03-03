@@ -1,26 +1,21 @@
 #!/usr/bin/env bash
-#github-action genshdoc
-#
-# @file Startup
-# @brief This script will ask users about their prefrences like disk, file system, timezone, keyboard layout, user name, password, etc.
-# @stdout Output routed to startup.log
-# @stderror Output routed to startup.log
+#Startup: Setup basic linux configuration such as Keybord layout, Time Zone, Username, Password, etc.
 
-# @setting-header General Settings
-# @setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
+#setting-header General Settings
+#setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
 CONFIG_FILE=$CONFIGS_DIR/setup.conf
-if [ ! -f $CONFIG_FILE ]; then # check if file exists
-    touch -f $CONFIG_FILE # create file if not exists
+if [ ! -f $CONFIG_FILE ]; then #check if file exists
+    touch -f $CONFIG_FILE #create file if not exists
 fi
 
-# @description set options in setup.conf
-# @arg $1 string Configuration variable.
-# @arg $2 string Configuration value.
+#description set options in setup.conf
+#arg $1 string Configuration variable.
+#arg $2 string Configuration value.
 set_option() {
-    if grep -Eq "^${1}.*" $CONFIG_FILE; then # check if option exists
-        sed -i -e "/^${1}.*/d" $CONFIG_FILE # delete option if exists
+    if grep -Eq "^${1}.*" $CONFIG_FILE; then #check if option exists
+        sed -i -e "/^${1}.*/d" $CONFIG_FILE #delete option if exists
     fi
-    echo "${1}=${2}" >>$CONFIG_FILE # add option
+    echo "${1}=${2}" >>$CONFIG_FILE #add option
 }
 
 set_password() {
@@ -64,15 +59,15 @@ background_checks() {
     pacman_check
 }
 
-# Renders a text based list of options that can be selected by the
-# user using up, down and enter keys and returns the chosen option.
+#Renders a text based list of options that can be selected by the
+#user using up, down and enter keys and returns the chosen option.
 #
-#   Arguments   : list of options, maximum of 256
-#                 "opt1" "opt2" ...
-#   Return value: selected index (0 for opt1, 1 for opt2 ...)
+#  Arguments   : list of options, maximum of 256
+#                "opt1" "opt2" ...
+#  Return value: selected index (0 for opt1, 1 for opt2 ...)
 select_option() {
 
-    # little helpers for terminal print control and key input
+    #little helpers for terminal print control and key input
     ESC=$( printf "\033")
     cursor_blink_on()  { printf "$ESC[?25h"; }
     cursor_blink_off() { printf "$ESC[?25l"; }
@@ -101,7 +96,7 @@ select_option() {
                         fi 
     }
     print_options_multicol() {
-        # print options by overwriting the last lines
+        #print options by overwriting the last lines
         local curr_col=$1
         local curr_row=$2
         local curr_idx=0
@@ -127,10 +122,10 @@ select_option() {
         done
     }
 
-    # initially print empty new lines (scroll down if at bottom of screen)
+    #initially print empty new lines (scroll down if at bottom of screen)
     for opt; do printf "\n"; done
 
-    # determine current screen position for overwriting the options
+    #determine current screen position for overwriting the options
     local return_value=$1
     local lastrow=`get_cursor_row`
     local lastcol=`get_cursor_col`
@@ -144,7 +139,7 @@ select_option() {
     local size=$4
     shift 4
 
-    # ensure cursor and input echoing back on upon a ctrl+c during read -s
+    #ensure cursor and input echoing back on upon a ctrl+c during read -s
     trap "cursor_blink_on; stty echo; printf '\n'; exit" 2
     cursor_blink_off
 
@@ -152,7 +147,7 @@ select_option() {
     local active_col=0
     while true; do
         print_options_multicol $active_col $active_row 
-        # user key control
+        #user key control
         case `key_input` in
             enter)  break;;
             up)     ((active_row--));
@@ -166,7 +161,7 @@ select_option() {
         esac
     done
 
-    # cursor position back to normal
+    #cursor position back to normal
     cursor_to $lastrow
     printf "\n"
     cursor_blink_on
@@ -176,14 +171,6 @@ select_option() {
 #Setting the linux file system to btrfs
 filesystem () {
 set_option FS btrfs
-}
-#Setting time zone to PST/LA 
-timezone () {
-select_option America/Los_Angeles
-}
-#Setting US keybord mapping as default. 
-keymap () {
-set_option KEYMAP us
 }
 
 #Verifying drive type with user input.
@@ -231,18 +218,18 @@ drivessd
 #Getting User input for creating account Username and Password. 
 userinfo () {
 read -p "Please enter your username: " username
-set_option USERNAME ${username,,} # convert to lower case as in issue #109 
+set_option USERNAME ${username,,} #convert to lower case as in issue #109 
 set_password "PASSWORD"
 read -rep "Please enter your hostname: " nameofmachine
 set_option NAME_OF_MACHINE $nameofmachine
 }
 
-# Starting functions
+#Starting functions
 background_checks
 clear
 userinfo
 clear
-# Set fixed options that installation uses if user choses server installation
+#Set fixed options that installation uses if user choses server installation
 clear
 installtype
 clear
@@ -250,6 +237,3 @@ diskpart
 clear
 filesystem
 clear
-timezone
-clear
-keymap
