@@ -29,5 +29,7 @@ export PATH=$PATH:~/.local/bin
 #    konsave -a kde
 #fi
 
-echo -ne "~~ Starting 3-post-setup ~~"
+echo -ne "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Starting 3-post-setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 exit

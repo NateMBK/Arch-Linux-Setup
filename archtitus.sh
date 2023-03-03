@@ -8,7 +8,9 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPTS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/scripts
 CONFIGS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/configs
 set +a
-echo -ne "~~ Arch Linux Auto Installer ~~"
+echo -ne "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Arch Linux Auto Installer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
     ( bash $SCRIPT_DIR/scripts/startup.sh )|& tee startup.log
       source $CONFIGS_DIR/setup.conf
@@ -20,4 +22,6 @@ echo -ne "~~ Arch Linux Auto Installer ~~"
     ( arch-chroot /mnt $HOME/ArchTitus/scripts/3-post-setup.sh )|& tee 3-post-setup.log
     cp -v *.log /mnt/home/$USERNAME
 
-echo -ne " ~~ Arch Linux Install Complete, Please Restart the system. ~~"
+echo -ne "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+Arch Linux Install Complete, Please Restart the system.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
