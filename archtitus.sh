@@ -27,10 +27,4 @@ echo -ne "
     ( arch-chroot /mnt $HOME/ArchTitus/scripts/3-post-setup.sh )|& tee 3-post-setup.log
     cp -v *.log /mnt/home/$USERNAME
 
-echo -ne "
-
--------------------------------------------------------------------------
-                    Automated Arch Linux Installer
--------------------------------------------------------------------------
-                Done - Please Eject Install Media and Reboot
-"
+echo -ne " ~~ Arch Linux Install Complete, Please Restart the system. ~~"
