@@ -178,7 +178,9 @@ set_option FS btrfs
 
 #Verifying drive type with user input.
 drivessd () {
-echo -ne "Is this an ssd? yes/no:"
+echo -ne "
+Is this an ssd? yes/no:
+"
 
 options=("Yes" "No")
 select_option $? 1 "${options[@]}"
