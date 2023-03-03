@@ -8,13 +8,11 @@ SCRIPTS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd 
 CONFIGS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/configs
 set +a
 
-    ( bash $SCRIPT_DIR/scripts/startup.sh )|& tee startup.log
+    ( bash $SCRIPT_DIR/scripts/startup.sh )
       source $CONFIGS_DIR/setup.conf
-    ( bash $SCRIPT_DIR/scripts/0-preinstall.sh )|& tee 0-preinstall.log
-    ( arch-chroot /mnt $HOME/arch/scripts/1-setup.sh )|& tee 1-setup.log
+    ( bash $SCRIPT_DIR/scripts/0-preinstall.sh )
+    ( arch-chroot /mnt $HOME/arch/scripts/1-setup.sh )
     if [[ ! $DESKTOP_ENV == server ]]; then
-      ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/arch/scripts/2-user.sh )|& tee 2-user.log
+      ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/arch/scripts/2-user.sh )
     fi
-    ( arch-chroot /mnt $HOME/arch/scripts/3-post-setup.sh )|& tee 3-post-setup.log
-    cp -v *.log /mnt/home/$USERNAME
-
+    ( arch-chroot /mnt $HOME/arch/scripts/3-post-setup.sh )
