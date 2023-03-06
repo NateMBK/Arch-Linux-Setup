@@ -95,4 +95,3 @@ wine
 wine-mono
 wine_gecko
 winetricks
-bottles
