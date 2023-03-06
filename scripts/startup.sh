@@ -4,12 +4,6 @@
 # @stdout Output routed to startup.log
 # @stderror Output routed to startup.log
 
-echo -ne "_____________________________________________
-
-Arch Linux Auto Installer
-
-_____________________________________________"
-
 # @setting-header General Settings
 # @setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
 CONFIG_FILE=$CONFIGS_DIR/setup.conf
