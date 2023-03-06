@@ -11,6 +11,11 @@ kde-gtk-config
 kcodecs
 kcoreaddons
 kdeplasma-addons
+partitionmanager
+ksystemlog
+plasma-systemmonitor
+ark
+kcalc
 kgpg
 kinfocenter
 konsole

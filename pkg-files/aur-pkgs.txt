@@ -12,7 +12,7 @@ dexy-theme-git
 snapper-gui-git
 ttf-meslo
 vde2
-anydesk
+anydesk-bin
 zoom
 waterfox-classic-bin
 bottles
