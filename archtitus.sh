@@ -14,7 +14,6 @@ set +a
     ( arch-chroot /mnt $HOME/ArchSetup/scripts/1-setup.sh )
     ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/ArchSetup/scripts/2-user.sh )
     ( arch-chroot /mnt $HOME/ArchSetup/scripts/3-post-setup.sh )
-    cp -v *.log /mnt/home/$USERNAME
 
 echo -ne "_____________________________________________
 
