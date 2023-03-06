@@ -95,4 +95,4 @@ wine
 wine-mono
 wine_gecko
 winetricks
-transsmision
+transmission-qt
