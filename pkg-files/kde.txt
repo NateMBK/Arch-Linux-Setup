@@ -27,4 +27,3 @@ print-manager
 systemsettings
 xdg-desktop-portal-kde
 zeroconf-ioslave
-transsmision

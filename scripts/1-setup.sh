@@ -122,8 +122,8 @@ if [ $(whoami) = "root"  ]; then
 else
 	echo "You are already a user proceed with aur installs"
 fi
-echo -ne "___________________________________
+echo -ne "_____________________________________________
 
 Starting 2-user
 
-___________________________________ "
+_____________________________________________"

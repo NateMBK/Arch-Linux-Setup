@@ -8,24 +8,22 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPTS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/scripts
 CONFIGS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"/configs
 set +a
-echo -ne "___________________________________
+echo -ne "_____________________________________________
 
 Arch Linux Auto Installer
 
-___________________________________"
+_____________________________________________"
 
-    ( bash $SCRIPT_DIR/scripts/startup.sh )|& tee startup.log
+    ( bash $SCRIPT_DIR/scripts/startup.sh )
       source $CONFIGS_DIR/setup.conf
-    ( bash $SCRIPT_DIR/scripts/0-preinstall.sh )|& tee 0-preinstall.log
-    ( arch-chroot /mnt $HOME/ArchTitus/scripts/1-setup.sh )|& tee 1-setup.log
-    if [[ ! $DESKTOP_ENV == server ]]; then
-      ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/ArchTitus/scripts/2-user.sh )|& tee 2-user.log
-    fi
-    ( arch-chroot /mnt $HOME/ArchTitus/scripts/3-post-setup.sh )|& tee 3-post-setup.log
+    ( bash $SCRIPT_DIR/scripts/0-preinstall.sh )
+    ( arch-chroot /mnt $HOME/ArchTitus/scripts/1-setup.sh )
+    ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/ArchTitus/scripts/2-user.sh )
+    ( arch-chroot /mnt $HOME/ArchTitus/scripts/3-post-setup.sh )
     cp -v *.log /mnt/home/$USERNAME
 
-echo -ne "_______________________________________________
+echo -ne "_____________________________________________
 
 Arch Linux Install Complete, Please Restart the system.
 
-_______________________________________________"
+_____________________________________________"
