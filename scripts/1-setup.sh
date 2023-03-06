@@ -112,8 +112,10 @@ echo "password=${password,,}" >> ${HOME}/ArchTitus/configs/setup.conf
 fi
 
 if [ $(whoami) = "root"  ]; then
-    groupadd libvirt
-    useradd -m -G wheel,libvirt -s /bin/bash $USERNAME 
+	sed -i 's/#unix_sock_group = "libvirt"/unix_sock_group = "libvirt"/g' /etc/libvirt/libvirtd.conf
+	sed -i 's/#unix_sock_rw_perms = "0770"/unix_sock_rw_perms = "0770"/g' /etc/libvirt/libvirtd.conf
+	groupadd --system libvirt
+	usermod -a -G libvirt $USERNAME 
 
 # use chpasswd to enter $USERNAME:$password
     echo "$USERNAME:$PASSWORD" | chpasswd
