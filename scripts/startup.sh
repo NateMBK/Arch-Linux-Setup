@@ -222,9 +222,6 @@ clear
 userinfo
 clear
 # Set fixed options that installation uses if user choses server installation
-clear
-installtype
-clear
 diskpart
 clear
 filesystem
