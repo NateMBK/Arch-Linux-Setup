@@ -12,3 +12,5 @@ dexy-theme-git
 snapper-gui-git
 ttf-meslo
 vde2
+
+waterfox-classic-bin
