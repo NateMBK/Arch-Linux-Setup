@@ -2,9 +2,9 @@
 # @file User
 # @brief User customizations and AUR package installation.
 
-source $HOME/ArchTitus/configs/setup.conf
+source $HOME/ArchSetup/configs/setup.conf
 cd ~
-sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/ArchTitus/pkg-files/kde.txt | while read line
+sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/ArchSetup/pkg-files/kde.txt | while read line
 do
     sudo pacman -S --noconfirm --needed "${line}"
 done
@@ -13,7 +13,7 @@ cd ~
 git clone "https://aur.archlinux.org/yay.git"
 cd ~/yay
 makepkg -si --noconfirm
-sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/ArchTitus/pkg-files/aur-pkgs.txt | while read line
+sed -n 's/^\s*#.*//; /^[[:space:]]*$/d; p' ~/ArchSetup/pkg-files/aur-pkgs.txt | while read line
 do
     yay -S --noconfirm --needed "${line}"
 done
@@ -21,9 +21,9 @@ done
 export PATH=$PATH:~/.local/bin
 
 #Theming DE if user chose FULL installation
-#cp -r ~/ArchTitus/configs/.config/* ~/.config/
+#cp -r ~/ArchSetup/configs/.config/* ~/.config/
 #pip install konsave
-#konsave -i ~/ArchTitus/configs/kde.knsv
+#konsave -i ~/ArchSetup/configs/kde.knsv
 #sleep 1
 #konsave -a kde
 

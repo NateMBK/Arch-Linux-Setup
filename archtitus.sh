@@ -11,9 +11,9 @@ set +a
     ( bash $SCRIPT_DIR/scripts/startup.sh )
       source $CONFIGS_DIR/setup.conf
     ( bash $SCRIPT_DIR/scripts/0-preinstall.sh )
-    ( arch-chroot /mnt $HOME/ArchTitus/scripts/1-setup.sh )
-    ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/ArchTitus/scripts/2-user.sh )
-    ( arch-chroot /mnt $HOME/ArchTitus/scripts/3-post-setup.sh )
+    ( arch-chroot /mnt $HOME/ArchSetup/scripts/1-setup.sh )
+    ( arch-chroot /mnt /usr/bin/runuser -u $USERNAME -- /home/$USERNAME/ArchSetup/scripts/2-user.sh )
+    ( arch-chroot /mnt $HOME/ArchSetup/scripts/3-post-setup.sh )
     cp -v *.log /mnt/home/$USERNAME
 
 echo -ne "_____________________________________________

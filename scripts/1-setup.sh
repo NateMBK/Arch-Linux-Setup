@@ -2,7 +2,7 @@
 # @file Setup
 # @brief Configures installed system, installs base packages, and creates user. 
 
-source $HOME/ArchTitus/configs/setup.conf
+source $HOME/ArchSetup/configs/setup.conf
 
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
@@ -38,7 +38,7 @@ sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm --needed
 
-cat $HOME/ArchTitus/pkg-files/pacman-pkgs.txt | while read line
+cat $HOME/ArchSetup/pkg-files/pacman-pkgs.txt | while read line
 do
   sudo pacman -S --noconfirm --needed ${line}
 done
@@ -66,7 +66,7 @@ elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils lib32-mesa
 fi
 #SETUP IS WRONG THIS IS RUN
-if ! source $HOME/ArchTitus/configs/setup.conf; then
+if ! source $HOME/ArchSetup/configs/setup.conf; then
 	# Loop through user input until the user gives a valid username
 	while true
 	do 
@@ -80,11 +80,11 @@ if ! source $HOME/ArchTitus/configs/setup.conf; then
 		echo "Incorrect username."
 	done 
 # convert name to lowercase before saving to setup.conf
-echo "username=${username,,}" >> ${HOME}/ArchTitus/configs/setup.conf
+echo "username=${username,,}" >> ${HOME}/ArchSetup/configs/setup.conf
 
     #Set Password
     read -p "Please enter password:" password
-echo "password=${password,,}" >> ${HOME}/ArchTitus/configs/setup.conf
+echo "password=${password,,}" >> ${HOME}/ArchSetup/configs/setup.conf
 
     # Loop through user input until the user gives a valid hostname, but allow the user to force save 
 	while true
@@ -103,7 +103,7 @@ echo "password=${password,,}" >> ${HOME}/ArchTitus/configs/setup.conf
 		fi 
 	done 
 
-    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/ArchTitus/configs/setup.conf
+    echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/ArchSetup/configs/setup.conf
 fi
 
 if [ $(whoami) = "root"  ]; then
