@@ -27,6 +27,7 @@ cmatrix
 code
 cronie
 cups
+transmission-qt
 dialog
 dmidecode
 dnsmasq
@@ -95,4 +96,3 @@ wine
 wine-mono
 wine_gecko
 winetricks
-transmission-qt
