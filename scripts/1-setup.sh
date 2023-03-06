@@ -6,11 +6,6 @@ source $HOME/ArchTitus/configs/setup.conf
 
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
-echo -ne "___________________________________
-
-Optimizing Package Manager Mirrors
-
-___________________________________"
 pacman -S --noconfirm --needed pacman-contrib curl
 pacman -S --noconfirm --needed reflector rsync grub arch-install-scripts git
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak

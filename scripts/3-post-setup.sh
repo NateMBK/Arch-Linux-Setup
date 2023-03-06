@@ -30,6 +30,7 @@ systemctl stop dhcpcd.service
 systemctl enable NetworkManager.service
 systemctl enable bluetooth
 systemctl enable avahi-daemon.service
+systemctl enable libvirtd.service
 
 SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
 mkdir -p /etc/snapper/configs/
